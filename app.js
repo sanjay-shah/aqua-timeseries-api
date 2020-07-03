@@ -69,7 +69,11 @@ app.get('/risks', (req, res) => {
 		RiskModel.aggregate([
 			{ 
 				$match: {
-					repoName: req.query.repoName
+					repoName: req.query.repoName,
+					snapstamp:{
+						$lte: objectIdWithTimestamp(req.query.to),
+						$gte: objectIdWithTimestamp(req.query.from)
+					}
 				}
 			},
 			{ 
@@ -78,7 +82,8 @@ app.get('/risks', (req, res) => {
 					critVulns: { $sum: "$critVulns" },
 					highVulns: { $sum: "$highVulns" },
 					medVulns: { $sum: "$medVulns" }
-				}}
+				}
+			}
 		], function (err, risks) {
 			if (err) return console.error(err)
 			//Timestamps can be easily extracted from objectId on the client side:
