@@ -83,6 +83,11 @@ app.get('/risks', (req, res) => {
 					highVulns: { $sum: "$highVulns" },
 					medVulns: { $sum: "$medVulns" }
 				}
+			},
+			{ 
+				$sort: { 
+					_id: -1 
+				} 
 			}
 		], function (err, risks) {
 			if (err) return console.error(err)
