@@ -87,8 +87,6 @@ function objectIdWithTimestamp(timestamp) {
   	let snapstamp = objectIdWithTimestamp(timestamp)
   	let riskItem = null
   	for (let i=0;i<req.body.length; i++) {
-  		console.log(`req.body[$(i)]:`)
-  		console.log(req.body[i])
   		riskItem = new RiskModel({
   			imageName: req.body[i].name,
   			repoName: req.body[i].registry,
@@ -103,7 +101,8 @@ function objectIdWithTimestamp(timestamp) {
   			timestamp: timestamp,
 				snapstamp: snapstamp
   		})
-  		riskItem.save().then(() => console.log(riskItem))
+  		riskItem.save()
+		console.log(riskItem)
   	}
   	res.send(req.body.length + ' images saved')
   })
