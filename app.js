@@ -27,12 +27,11 @@ const RiskModel = mongoose.model('risks', {
 	lowVulns: Number,
 	totalVulns: Number,
 	ackVulns: Number,
-	//timestamp is only added for demo
-	//in production use _id to derive timestamp
-	timestamp: {
-		type: Date,
-		default: new Date
-	}
+	// timestamp is only added for demo
+	// in production use _id(for image) 
+	// or snapstamp(for repos) to derive timestamp
+	timestamp: Date,
+	snapstamp: Date
 })
 // Allow CORS
 app.use(cors());
@@ -84,6 +83,8 @@ function objectIdWithTimestamp(timestamp) {
 
   app.post('/risks', (req, res) => {
   	console.log('inside POST /risks')
+  	let timestamp = new Date
+  	let snapstamp = objectIdWithTimestamp(timestamp)
   	let riskItem = null
   	for (let i=0;i<req.body.length; i++) {
   		riskItem = new RiskModel({
@@ -96,7 +97,9 @@ function objectIdWithTimestamp(timestamp) {
   			medVulns: req.body[i].med_vulns,
   			lowVulns: req.body[i].low_vulns,
   			totalVulns: req.body[i].vulns_found,
-  			ackVulns: 0
+  			ackVulns: 0,
+  			timestamp: timestamp,
+				snapstamp: snapstamp
   		})
   		riskItem.save().then(() => console.log(riskItem))
   	}
