@@ -31,7 +31,7 @@ const RiskModel = mongoose.model('risks', {
 	// in production use _id(for image) 
 	// or snapstamp(for repos) to derive timestamp
 	timestamp: Date,
-	snapstamp: ObjectId
+	snapstamp: mongoose.Types.ObjectId
 })
 // Allow CORS
 app.use(cors());
